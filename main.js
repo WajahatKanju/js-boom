@@ -10,19 +10,63 @@ const CANVAS_HEIGHT = (canvas.height = 800);
 let x = undefined;
 let y = undefined;
 
+class Explosion {
+  constructor(x, y) {
+    this.spriteSheet = new Image();
+    this.spriteSheet.src = "./resources/boom.png";
+    this.rows = 5;
+    this.cols = 1;
+    this.spriteWidth = this.spriteSheet.width / this.rows;
+    this.spriteHeight = this.spriteSheet.height / this.cols;
+    this.width = this.spriteWidth * 0.5;
+    this.height = this.spriteHeight * 0.5;
+    this.frame = 0;
+    this.speed = 10;
+    this.turn = 0;
+    this.x = x;
+    this.y = y;
+  }
 
+  draw() {
+    ctx.drawImage(
+      this.spriteSheet,
+      this.spriteWidth * this.frame,
+      0,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+  }
 
+  update() {
+    this.turn++;
+    if (this.turn % this.speed === 0) {
+      this.frame++;
+    }
+    this.draw();
+  }
+}
+let explosions = [];
 
 window.addEventListener("click", (evt) => {
   x = evt.clientX - canvasPosition.left;
   y = evt.clientY - canvasPosition.top;
-  ctx.fillStyle = "white";
-  ctx.fillRect(x, y, 50, 50);
+  explosions.push(new Explosion(x, y));
+  // ctx.fillStyle = "white";
+  // ctx.fillRect(x, y, 50, 50);
 });
 
-// const animate = () => {
-//   requestAnimationFrame(animate);
 
-// }
+const animate = () => {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0,0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  explosions.forEach((explosion) => {
+    explosion.update();
+    console.log('click');
+  })
+}
 
-// animate();
+animate();
