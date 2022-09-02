@@ -17,6 +17,8 @@ class Explosion {
   constructor(x, y) {
     this.spriteSheet = new Image();
     this.spriteSheet.src = "./resources/boom.png";
+    this.explosion = new Audio();
+    this.explosion.src = "./resources/explosion.wav";
     this.rows = 5;
     this.cols = 1;
     this.spriteWidth = this.spriteSheet.width / this.rows;
@@ -51,6 +53,7 @@ class Explosion {
 
   update() {
     this.turn++;
+    if(this.frame) this.explosion.play;
     if (this.turn % this.speed === 0) {
       this.frame++;
     }
@@ -61,7 +64,7 @@ class Explosion {
   }
 }
 
-window.addEventListener("mousemove", (evt) => {
+window.addEventListener("click", (evt) => {
   x = evt.clientX - canvasPosition.left;
   y = evt.clientY - canvasPosition.top;
   explosions.push(new Explosion(x, y));
