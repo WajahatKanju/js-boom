@@ -10,6 +10,9 @@ const CANVAS_HEIGHT = (canvas.height = 800);
 let x = undefined;
 let y = undefined;
 
+let explosions = [];
+
+
 class Explosion {
   constructor(x, y) {
     this.spriteSheet = new Image();
@@ -34,8 +37,8 @@ class Explosion {
       0,
       this.spriteWidth,
       this.spriteHeight,
-      this.x,
-      this.y,
+      this.x - this.width/2,
+      this.y - this.height/2,
       this.width,
       this.height
     );
@@ -46,15 +49,19 @@ class Explosion {
     if (this.turn % this.speed === 0) {
       this.frame++;
     }
+    if(this.frame > this.cols){
+      explosions.splice(this, 1);
+    }
     this.draw();
   }
 }
-let explosions = [];
 
 window.addEventListener("click", (evt) => {
   x = evt.clientX - canvasPosition.left;
   y = evt.clientY - canvasPosition.top;
   explosions.push(new Explosion(x, y));
+  console.log(explosions);
+
   // ctx.fillStyle = "white";
   // ctx.fillRect(x, y, 50, 50);
 });
@@ -65,7 +72,6 @@ const animate = () => {
   ctx.clearRect(0,0, CANVAS_WIDTH, CANVAS_HEIGHT);
   explosions.forEach((explosion) => {
     explosion.update();
-    console.log('click');
   })
 }
 
