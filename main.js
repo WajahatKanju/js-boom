@@ -12,11 +12,14 @@ let y = undefined;
 
 let explosions = [];
 
+let image = new Image();
+image.src = "./resources/boom.png";
 
 class Explosion {
   constructor(x, y) {
-    this.spriteSheet = new Image();
-    this.spriteSheet.src = "./resources/boom.png";
+    this.spriteSheet = image;
+    // this.spriteSheet = new Image();
+    // this.spriteSheet.src = "./resources/boom.png";
     this.explosion = new Audio();
     this.explosion.src = "./resources/explosion.wav";
     this.rows = 5;
@@ -31,6 +34,7 @@ class Explosion {
     this.x = x;
     this.y = y;
     this.angle = Math.random() * 6.24;
+
   }
 
   draw() {
@@ -53,7 +57,7 @@ class Explosion {
 
   update() {
     this.turn++;
-    if(this.frame) this.explosion.play;
+    if(this.frame === 0) this.explosion.play();
     if (this.turn % this.speed === 0) {
       this.frame++;
     }
@@ -83,4 +87,7 @@ const animate = () => {
   })
 }
 
-animate();
+window.addEventListener('load', () => {
+  console.log('loaded')
+  animate();
+})
