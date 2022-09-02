@@ -24,24 +24,29 @@ class Explosion {
     this.width = this.spriteWidth * 0.5;
     this.height = this.spriteHeight * 0.5;
     this.frame = 0;
-    this.speed = 10;
+    this.speed = 13;
     this.turn = 0;
     this.x = x;
     this.y = y;
+    this.angle = Math.random() * 6.24;
   }
 
   draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
     ctx.drawImage(
       this.spriteSheet,
       this.spriteWidth * this.frame,
       0,
       this.spriteWidth,
       this.spriteHeight,
-      this.x - this.width/2,
-      this.y - this.height/2,
+      0 - this.width/2,
+      0 - this.height/2,
       this.width,
       this.height
     );
+    ctx.restore();
   }
 
   update() {
@@ -56,7 +61,7 @@ class Explosion {
   }
 }
 
-window.addEventListener("click", (evt) => {
+window.addEventListener("mousemove", (evt) => {
   x = evt.clientX - canvasPosition.left;
   y = evt.clientY - canvasPosition.top;
   explosions.push(new Explosion(x, y));
